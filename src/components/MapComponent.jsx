@@ -1,4 +1,3 @@
-// src/components/MapComponent.js
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 
@@ -10,9 +9,17 @@ const MapComponent = () => {
   const [map, setMap] = useState(null);
 
   const [coordinates, setCoordinates] = useState({
-    longitude: -74.006,
-    latitude: 40.7128,
+    longitude: 74.30898579319462, // Initial coordinates for Lahore
+    latitude: 31.47069819936512,
   });
+
+  const handleInputChange = (e, type) => {
+    const value = parseFloat(e.target.value);
+    setCoordinates((prev) => ({
+      ...prev,
+      [type]: value, // Dynamically update either latitude or longitude based on input type
+    }));
+  };
 
   useEffect(() => {
     if (mapContainerRef.current) {
@@ -20,9 +27,10 @@ const MapComponent = () => {
         container: mapContainerRef.current,
         style: "mapbox://styles/mapbox/streets-v11",
         center: [coordinates.longitude, coordinates.latitude],
-        zoom: 24,
+        zoom: 14,
       });
 
+      // Add polygon and markers to the map
       newMap.on("load", () => {
         // Add a Polygon (for warehouse zones)
         newMap.addSource("warehouse-zones", {
@@ -36,11 +44,11 @@ const MapComponent = () => {
                   type: "Polygon",
                   coordinates: [
                     [
-                      [-74.006, 40.7128],
-                      [-74.002, 40.7128],
-                      [-74.002, 40.7168],
-                      [-74.006, 40.7168],
-                      [-74.006, 40.7128],
+                      [74.3079, 31.47], // Lower-left corner (southwest)
+                      [74.31, 31.47], // Lower-right corner (southeast)
+                      [74.31, 31.4715], // Upper-right corner (northeast)
+                      [74.3079, 31.4715], // Upper-left corner (northwest)
+                      [74.3079, 31.47], // Closing the polygon (back to southwest)
                     ],
                   ],
                 },
@@ -64,29 +72,54 @@ const MapComponent = () => {
         });
 
         // Add Markers (for inbound/outbound areas)
+        // Add Markers (for inbound/outbound areas near Gourmet Restaurant)
         new mapboxgl.Marker({ color: "green" })
-          .setLngLat([-74.004, 40.713])
+          .setLngLat([74.309, 31.4708]) // Inbound near Gourmet
           .setPopup(new mapboxgl.Popup().setText("Inbound Area"))
           .addTo(newMap);
 
         new mapboxgl.Marker({ color: "red" })
-          .setLngLat([-74.005, 40.715])
+          .setLngLat([74.3095, 31.4712]) // Outbound near Gourmet
           .setPopup(new mapboxgl.Popup().setText("Outbound Area"))
           .addTo(newMap);
       });
 
-      setMap(newMap);  
+      setMap(newMap);
 
-      return () => newMap.remove();
+      return () => newMap.remove(); // Clean up on component unmount
     }
   }, [coordinates]);
 
+  useEffect(() => {
+    if (map) {
+      // Update the map center whenever coordinates change
+      map.setCenter([coordinates.longitude, coordinates.latitude]);
+    }
+  }, [coordinates, map]);
+
   return (
-    <div
-      ref={mapContainerRef}
-      className="map-container"
-      style={{ width: "100%", height: "100vh" }}
-    />
+    <div>
+      <div className="flex gap-6 p-6">
+        <input
+          type="text"
+          placeholder="Enter latitude"
+          onChange={(e) => handleInputChange(e, "latitude")}
+          className="border border-gray-300 rounded-lg p-2 m-2 w-full max-w-xs focus:outline-none focus:border-blue-500"
+        />
+        <input
+          type="text"
+          placeholder="Enter longitude"
+          onChange={(e) => handleInputChange(e, "longitude")}
+          className="border border-gray-300 rounded-lg p-2 m-2 w-full max-w-xs focus:outline-none focus:border-blue-500"
+        />
+      </div>
+      {/* Map container */}
+      <div
+        ref={mapContainerRef}
+        className="map-container"
+        style={{ width: "100%", height: "100vh" }}
+      />
+    </div>
   );
 };
 
