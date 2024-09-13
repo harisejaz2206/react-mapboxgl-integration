@@ -53,7 +53,7 @@ const MapComponentThree = () => {
           type: "symbol",
           source: "warehouse-points-source",
           layout: {
-            "icon-image": "marker-15",
+            "icon-image": "airport-15",
             "icon-size": 1.5,
             "text-field": ["get", "name"],
             "text-size": 12,

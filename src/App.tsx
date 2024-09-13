@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from './pages/Home';
 import MapComponent from "./components/MapComponent";
 import MapComponentTwo from "./components/MapComponentTwo";
+import MapComponentThree from "./components/MapComponentThree";
 
 
 function App() {
