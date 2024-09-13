@@ -55,7 +55,7 @@ const MapComponentTwo = () => {
           type: "symbol",
           source: "points",
           layout: {
-            "icon-image": "marker-15", // Use Mapbox's built-in marker icon
+            "icon-image": "marker-25", // Use Mapbox's built-in marker icon
             "text-field": "{title}", // Display title as text
             "text-offset": [0, 1.5],
             "text-anchor": "top",
@@ -93,14 +93,13 @@ const MapComponentTwo = () => {
           layout: {},
           paint: {
             "line-color": "#FF0000", // Line color
-            "line-width": 4, // Line width
+            "line-width": 8, // Line width
             "line-dasharray": [2, 2], // Optional: Dash pattern for the line
           },
         });
       });
 
       setMap(newMap);
-
       return () => newMap.remove(); // Clean up on component unmount
     }
   }, []);

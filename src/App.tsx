@@ -11,6 +11,7 @@ function App() {
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/map' element={<MapComponent></MapComponent>}></Route>
         <Route path='/map-two' element={<MapComponentTwo></MapComponentTwo>}></Route>
+        <Route path='/map-three' element={<MapComponentThree></MapComponentThree>}></Route>
       </Routes>
     </BrowserRouter>
   );
