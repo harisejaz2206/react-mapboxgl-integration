@@ -1,3 +1,13 @@
+/**
+ * MapComponent renders an interactive Mapbox map that:
+ * - Initializes with a default view centered on Lahore, Pakistan.
+ * - Allows users to dynamically update the map's center based on latitude and longitude input.
+ * - Displays a polygon representing a warehouse zone and markers for inbound and outbound areas.
+ * - Updates the map center and content based on user input and component state.
+ * - Cleans up the Mapbox instance when the component unmounts.
+ */
+
+
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 
