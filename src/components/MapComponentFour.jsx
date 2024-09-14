@@ -1,3 +1,5 @@
+// Working on custom sprites
+
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 
@@ -34,7 +36,7 @@ const rfidScannerData = {
   ],
 };
 
-const MapComponentThree = () => {
+const MapComponentFour = () => {
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
 
@@ -42,67 +44,67 @@ const MapComponentThree = () => {
     if (mapContainerRef.current) {
       const newMap = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: "mapbox://styles/mapbox/streets-v11",
+        style: "mapbox://styles/mapbox/satellite-streets-v11",
         center: [74.30898579319462, 31.47069819936512], // Initial coordinates
         zoom: 14,
       });
-  
+
       newMap.on("load", () => {
         // Add Forklift Source
         newMap.addSource("forklift-source", {
           type: "geojson",
           data: forkliftData, // Reference the separate forklift data object
         });
-  
+
         // Add RFID Scanner Source
         newMap.addSource("rfid-scanner-source", {
           type: "geojson",
           data: rfidScannerData, // Reference the separate RFID scanner data object
         });
-  
+
         // Load Forklift Icon and Add Symbol Layer
         newMap.loadImage(
           "https://cdn-icons-png.flaticon.com/512/870/870055.png", // Forklift icon URL
           (error, image) => {
             if (error) throw error;
             newMap.addImage("forklift-icon", image);
-  
+
             newMap.addLayer({
               id: "forklift-layer",
               type: "symbol",
               source: "forklift-source",
               layout: {
                 "icon-image": "forklift-icon",
-                "icon-size": 1.5,
+                "icon-size": 0.05,
                 "icon-allow-overlap": true,
               },
             });
           }
         );
-  
+
         // Load RFID Scanner Icon and Add Symbol Layer
         newMap.loadImage(
-          "https://example.com/rfid-scanner-icon.png", // Replace with your RFID scanner icon URL
+          "https://atlas-content-cdn.pixelsquid.com/assets_v2/308/3083641623855240558/jpeg-600/G03.jpg?modifiedAt=1", // Replace with your RFID scanner icon URL
           (error, image) => {
             if (error) throw error;
             newMap.addImage("rfid-scanner-icon", image);
-  
+
             newMap.addLayer({
               id: "rfid-scanner-layer",
               type: "symbol",
               source: "rfid-scanner-source",
               layout: {
                 "icon-image": "rfid-scanner-icon",
-                "icon-size": 1.5,
+                "icon-size": 0.05,
                 "icon-allow-overlap": true,
               },
             });
           }
         );
       });
-  
+
       setMap(newMap);
-  
+
       return () => newMap.remove();
     }
   }, []);
@@ -112,4 +114,4 @@ const MapComponentThree = () => {
   );
 };
 
-export default MapComponentThree;
+export default MapComponentFour;
