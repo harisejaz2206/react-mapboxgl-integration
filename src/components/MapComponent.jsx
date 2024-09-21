@@ -96,7 +96,7 @@ const MapComponent = () => {
 
       setMap(newMap);
 
-      return () => newMap.remove(); // Clean up on component unmount
+      return () => newMap.remove();
     }
   }, [coordinates]);
 
